@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from stats import stats
 
 class BinHeap():
     def __init__(self):
@@ -25,18 +26,28 @@ class BinHeap():
         self.percUp(self.currentSize)
 
     def percDown(self,i):
+        global stat
         while (i * 2) <= self.currentSize:
+            stat.comp += 1
             mc = self.minChild(i)
+            stat.basic += 2
             if self.heapList[i] > self.heapList[mc]:
-                tmp = self.heapList[i]
-                self.heapList[i] = self.heapList[mc]
-                self.heapList[mc] = tmp
+                stat.comp += 1
+                self.heapList[i], self.heapList[mc] = \
+                        self.heapList[mc], self.heapList[i]
+                stat.swap += 1
             i = mc
 
     def minChild(self,i):
+        global stat
+        stat.comp += 1
+        stat.basic += 2
         if i * 2 + 1 > self.currentSize:
+            stat.basic += 1
             return i * 2
         else:
+            stat.comp += 1
+            self.basic += 7
             if self.heapList[i*2] < self.heapList[i*2+1]:
                 return i * 2
             else:
