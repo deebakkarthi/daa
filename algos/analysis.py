@@ -49,13 +49,13 @@ if __name__ == "__main__":
             func = isort
             sys.stdout = open("../data/insertionsort", 'w')
         case "b":
-            func = partial(bsort,k=10)
+            func = partial(bsort)
             sys.stdout = open("../data/bucketsort", 'w')
         case _:
             usage()
             exit(0)
 
-    for i in range(100,10000):
+    for i in range(100, 10000):
         del arr
         arr = [random() for _ in range(i)]
         measure(arr)
