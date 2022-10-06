@@ -38,19 +38,19 @@ if __name__ == "__main__":
     match sys.argv[1]:
         case "q":
             func = partial(qsort, start=0, end=None)
-            sys.stdout = open("../data/quicksort.csv", 'w')
+            sys.stdout = open("../res/csv/quicksort.csv", 'w')
         case "m":
             func = msort
-            sys.stdout = open("../data/mergesort.csv", 'w')
+            sys.stdout = open("../res/csv/mergesort.csv", 'w')
         case "h":
             func = hsort
-            sys.stdout = open("../data/heapsort.csv", 'w')
+            sys.stdout = open("../res/csv/heapsort.csv", 'w')
         case "i":
             func = isort
-            sys.stdout = open("../data/insertionsort.csv", 'w')
+            sys.stdout = open("../res/csv/insertionsort.csv", 'w')
         case "b":
             func = partial(bsort)
-            sys.stdout = open("../data/bucketsort.csv", 'w')
+            sys.stdout = open("../res/csv/bucketsort.csv", 'w')
         case _:
             usage()
             exit(0)

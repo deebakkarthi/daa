@@ -1,24 +1,28 @@
 #!/usr/bin/env python3
 import sys
 import pandas as pd
+import matplotlib
 import matplotlib.pyplot as plt
+matplotlib.use("pgf")
+matplotlib.rcParams.update({
+    "pgf.texsystem": "pdflatex",
+    "font.family": "serif",
+    "text.usetex": True,
+    "pgf.rcfonts": False,
+    })
+
 
 def usage():
     print("Usage: plot FILE")
 
 def plot(df, key, label):
     basename = sys.argv[1].split(".")[0]
-    filepath = f"plots/{basename}/{basename}_{key}.png"
+    filepath = f"../res/plots/{basename}/{basename}_{key}.pgf"
     x = df['input_size']
     y = df[key]
-
-    plt.figure(figsize=(20,20))
-    plt.xlabel("Input Size", fontsize=20, fontname="monospace")
-    plt.ylabel(label, fontsize=20, fontname="monospace")
-    plt.xticks(fontsize=18)
-    plt.yticks(fontsize=18)
-
-    plt.plot(x, y, color="green")
+    plt.xlabel("Input Size")
+    plt.ylabel(label)
+    plt.plot(x, y)
     plt.savefig(filepath)
 
 

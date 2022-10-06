@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
 import sys
 import pandas as pd
+import matplotlib
 import matplotlib.pyplot as plt
-plt.rcParams["figure.figsize"] = (10,10)
-plt.rcParams["lines.linewidth"] = 2
+matplotlib.use("pgf")
+matplotlib.rcParams.update({
+    "pgf.texsystem": "pdflatex",
+    "font.family": "serif",
+    "text.usetex": True,
+    "pgf.rcfonts": False,
+    })
 
 def plot(dfd, key, label):
-    filename = f"plots/all_{key}.png"
-    plt.xlabel("Input Size", fontsize=20, fontname="monospace")
-    plt.ylabel(label+" in log", fontsize=20, fontname="monospace")
-    plt.xticks(fontsize=18)
-    plt.yticks(fontsize=18)
+    filename = f"../res/plots/all_{key}.pgf"
+    plt.xlabel("Input Size")
+    plt.ylabel(label+" in log")
     plt.yscale("log")
     for k,v in dfd.items():
         x = v["input_size"]
@@ -19,8 +23,6 @@ def plot(dfd, key, label):
     plt.legend()
     plt.savefig(filename)
     plt.clf()
-
-
 
 
 if __name__ == "__main__":
