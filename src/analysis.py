@@ -9,13 +9,15 @@ import config
 
 from iquicksort import qsort
 from mergesort import msort
+from bmergesort import bmsort
 from iheapsort import hsort
 from insertionsort import isort
 from bucketsort import bsort
 
 def usage():
     print("Usage: analysis SORT\nSORT:\nq - Quick Sort\nm - Merge Sort\n"\
-          "h - Heap Sort\ni - Insertion Sort\nb - Bucket Sort")
+          "h - Heap Sort\ni - Insertion Sort\nb - Bucket Sort\nbm - Better\
+          Merge Sort")
 
 def measure(arr):
     tracemalloc.start()
@@ -51,6 +53,9 @@ if __name__ == "__main__":
         case "b":
             func = partial(bsort)
             sys.stdout = open("../res/csv/bucketsort.csv", 'w')
+        case "bm":
+            func = partial(bmsort, start=0, end=None)
+            sys.stdout = open("../res/csv/bmergesort.csv", 'w')
         case _:
             usage()
             exit(0)
