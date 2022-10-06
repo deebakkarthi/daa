@@ -1,22 +1,5 @@
 #!/usr/bin/env python3
-import sys
-from dataclasses import dataclass
-from time import perf_counter_ns
-import tracemalloc
-
-@dataclass
-class stats:
-    comp: int = 0
-    swap: int = 0
-    basic: int = 0
-    time: float = 0
-    mem: float = 0
-
-    def __str__(self):
-        return f"{self.comp} {self.swap} {self.basic} {self.time} {self.mem}"
-
-def usage():
-    print("Usage: iheapsort FILE")
+import config
 
 class BinHeap():
     def __init__(self):
@@ -43,28 +26,26 @@ class BinHeap():
         self.percUp(self.currentSize)
 
     def percDown(self,i):
-        global stat
         while (i * 2) <= self.currentSize:
-            stat.comp += 1
+            config.stat.comp += 1
             mc = self.minChild(i)
-            stat.basic += 2
+            config.stat.basic += 2
             if self.heapList[i] > self.heapList[mc]:
-                stat.comp += 1
+                config.stat.comp += 1
                 self.heapList[i], self.heapList[mc] = \
                         self.heapList[mc], self.heapList[i]
-                stat.swap += 1
+                config.stat.swap += 1
             i = mc
 
     def minChild(self,i):
-        global stat
-        stat.comp += 1
-        stat.basic += 2
+        config.stat.comp += 1
+        config.stat.basic += 2
         if i * 2 + 1 > self.currentSize:
-            stat.basic += 1
+            config.stat.basic += 1
             return i * 2
         else:
-            stat.comp += 1
-            stat.basic += 7
+            config.stat.comp += 1
+            config.stat.basic += 7
             if self.heapList[i*2] < self.heapList[i*2+1]:
                 return i * 2
             else:
@@ -91,10 +72,13 @@ class BinHeap():
     def printHeap(self):
         print(self.heapList)
 
-def hsort(h):
-    global stat
+def hsort(a):
+    # Creating a heap
+    h = BinHeap()
+    h.buildHeap(a)
+
     n = len(h)
-    stat.basic += 1
+    config.stat.basic += 1
     for i in range(n, 0, -1):
         # Swap smallest with the last
         h.heapList[i], h.heapList[1] = h.heapList[1], h.heapList[i]
@@ -103,49 +87,10 @@ def hsort(h):
         h.currentSize -= 1
         # downheap() the new root to the right place
         h.percDown(1)
-        stat.swap += 1
-        stat.basic += 7
+        config.stat.swap += 1
+        config.stat.basic += 7
     # Remove the 0
     h.heapList.pop(0)
     # Reverse as we are using a minheap
     h.heapList.reverse()
-    return h.heapList
-
-
-if __name__ == "__main__":
-
-    stat = stats()
-
-    if len(sys.argv) < 2:
-        usage()
-        sys.exit(0)
-
-    arr = list()
-    with open(sys.argv[1], 'r') as f:
-        i = f.readline().strip()
-        arr = [float(x) for x in i.split()]
-
-if __name__ == "__main__":
-
-
-    if len(sys.argv) < 2:
-        usage()
-        sys.exit(0)
-
-    arr = list()
-    with open(sys.argv[1], 'r') as f:
-        i = f.readline().strip()
-        arr = [float(x) for x in i.split()]
-
-    tracemalloc.start()
-    stat.time = perf_counter_ns()
-
-    heap = BinHeap()
-    heap.buildHeap(arr)
-    arr = hsort(heap)
-
-    stat.time = perf_counter_ns() - stat.time
-    stat.mem = tracemalloc.get_traced_memory()[1]
-    tracemalloc.stop()
-
-    print(len(arr),stat)
+    a = h.heapList
