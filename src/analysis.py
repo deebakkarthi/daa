@@ -15,10 +15,12 @@ from iheapsort import hsort
 from insertionsort import isort
 from bucketsort import bsort
 
+
 def usage():
-    print("Usage: analysis SORT\nSORT:\nq - Quick Sort\nm - Merge Sort\n"\
-          "h - Heap Sort\ni - Insertion Sort\nb - Bucket Sort\nbm - Better"\
-          "Merge Sort\nbq - Better Quick Sort")
+    print("Usage: analysis SORT\nSORT:\nq - Quick Sort\nm - Merge Sort\n"
+          "h - Heap Sort\ni - Insertion Sort\nb - Bucket Sort\n"
+          "bm - Better Merge Sort\nbq - Better Quick Sort")
+
 
 def measure(arr):
     tracemalloc.start()
@@ -27,7 +29,8 @@ def measure(arr):
     config.stat.time = perf_counter_ns() - config.stat.time
     config.stat.mem = tracemalloc.get_traced_memory()[1]
     tracemalloc.stop()
-    print(len(arr),config.stat,sep=",")
+    print(len(arr), config.stat, sep=",")
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -65,10 +68,9 @@ if __name__ == "__main__":
             exit(0)
     # headers for csv files
     print("input_size,comp,swap,basic,time,mem")
-    for i in range(10, 1000, 10):
+    for i in range(100, 10000, 100):
         del arr
         arr = [random() for _ in range(i)]
-        arr = sorted(arr,reverse=True)
         measure(arr)
         del config.stat
         config.init()

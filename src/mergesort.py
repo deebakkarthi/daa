@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import config
 
+
 def msort(a):
     config.stat.comp += 1
     if len(a) > 1:

@@ -18,7 +18,7 @@ def bqsort(arr, start, end):
     mid = (left + right) // 2
     if arr[mid] < arr[left]:
         arr[left], arr[mid] = arr[mid], arr[left]
-    if arr[end]  < arr[left]:
+    if arr[end] < arr[left]:
         arr[left], arr[end] = arr[end], arr[left]
     if arr[mid] < arr[end]:
         arr[end], arr[mid] = arr[mid], arr[end]

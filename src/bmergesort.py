@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 import config
 
+
 # Better mergesort
 # only creates one subarray per merge
 # end here is last index + 1. This makes the slicing pretty but the
 # calculations ugly
+
 def bmsort(a, start, end):
     # Default arg
     if end is None:
@@ -26,6 +28,7 @@ def bmsort(a, start, end):
         merge(a, lstart, lend, rstart, rend)
     return
 
+
 def merge(a, lstart, lend, rstart, rend):
     k = rend - 1
     i = lend - 1
@@ -41,11 +44,11 @@ def merge(a, lstart, lend, rstart, rend):
         config.stat.basic += 2
         if b[j] > a[i]:
             a[k] = b[j]
-            j-=1
+            j -= 1
         else:
             a[k] = a[i]
-            i-=1
-        k-=1
+            i -= 1
+        k -= 1
         config.stat.basic += 7
     # Copying the rest of the larger array
     while i >= lstart:

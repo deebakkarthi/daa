@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import config
 
+
 def isort(a):
     for i in range(1, len(a)):
         config.stat.basic += 1

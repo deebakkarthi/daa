@@ -11,12 +11,13 @@ matplotlib.rcParams.update({
     "pgf.rcfonts": False,
     })
 
+
 def plot(dfd, key, label):
     filename = f"../res/plots/all_{key}.pgf"
     plt.xlabel("Input Size")
     plt.ylabel(label+" in log")
     plt.yscale("log")
-    for k,v in dfd.items():
+    for k, v in dfd.items():
         x = v["input_size"]
         y = v[key]
         plt.plot(x, y, label=k)
@@ -26,10 +27,10 @@ def plot(dfd, key, label):
 
 
 if __name__ == "__main__":
-    keys = ["comp","swap","basic","time","mem"]
-    labels = ["COMPARISONS","SWAPS","BASIC OPERATIONS",
+    keys = ["comp", "swap", "basic", "time", "mem"]
+    labels = ["COMPARISONS", "SWAPS", "BASIC OPERATIONS",
               "TIME", "MEMORY (B)"]
-    ldict = dict(zip(keys,labels))
+    ldict = dict(zip(keys, labels))
     dfd = {}
     dfd["quick"] = pd.read_csv("quicksort.csv")
     dfd["merge"] = pd.read_csv("mergesort.csv")

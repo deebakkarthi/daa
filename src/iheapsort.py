@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import config
 
+
 class BinHeap():
     def __init__(self):
         self.heapList = [0]
@@ -12,7 +13,7 @@ class BinHeap():
 
     """ This method defines the upheap function when inserting an element
     """
-    def percUp(self,i):
+    def percUp(self, i):
         while i // 2 > 0:
             if self.heapList[i] < self.heapList[i // 2]:
                 tmp = self.heapList[i // 2]

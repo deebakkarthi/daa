@@ -15,6 +15,7 @@ matplotlib.rcParams.update({
 def usage():
     print("Usage: plot FILE")
 
+
 def plot(df, key, label):
     basename = sys.argv[1].split("/")[-1]
     basename = basename.split(".")[0]
@@ -33,11 +34,11 @@ if __name__ == "__main__":
         exit(0)
 
     df = pd.read_csv(sys.argv[1])
-    label = {"input_size":"Input Size",
-             "comp":"Comparisons",
-             "swap":"Swaps",
-             "basic":"Basic Operations",
-             "time":"Time (ns)",
-             "mem":"Memory (B)"}
+    label = {"input_size": "Input Size",
+             "comp": "Comparisons",
+             "swap": "Swaps",
+             "basic": "Basic Operations",
+             "time": "Time (ns)",
+             "mem": "Memory (B)"}
     for i in df.columns:
         plot(df, i, label[i])
