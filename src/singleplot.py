@@ -26,6 +26,7 @@ def plot(df, key, label):
     plt.ylabel(label)
     plt.plot(x, y)
     plt.savefig(filepath)
+    plt.clf()
 
 
 if __name__ == "__main__":

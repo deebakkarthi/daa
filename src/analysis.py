@@ -14,12 +14,13 @@ from bquicksort import bqsort
 from iheapsort import hsort
 from insertionsort import isort
 from bucketsort import bsort
+from timsort import tsort
 
 
 def usage():
     print("Usage: analysis SORT\nSORT:\nq - Quick Sort\nm - Merge Sort\n"
           "h - Heap Sort\ni - Insertion Sort\nb - Bucket Sort\n"
-          "bm - Better Merge Sort\nbq - Better Quick Sort")
+          "bm - Better Merge Sort\nbq - Better Quick Sort\nt- Timsort")
 
 
 def measure(arr):
@@ -63,14 +64,18 @@ if __name__ == "__main__":
         case "bq":
             func = partial(bqsort, start=0, end=None)
             sys.stdout = open("../res/csv/bquicksort.csv", 'w')
+        case "t":
+            func = partial(tsort, start=0, end=None)
+            sys.stdout = open("../res/csv/timsort.csv", 'w')
         case _:
             usage()
             exit(0)
     # headers for csv files
     print("input_size,comp,swap,basic,time,mem")
-    for i in range(100, 10000, 100):
+    for i in range(100, 1000, 10):
         del arr
         arr = [random() for _ in range(i)]
+        arr = sorted(arr, reverse=True)
         measure(arr)
         del config.stat
         config.init()

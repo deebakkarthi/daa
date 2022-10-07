@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 import config
 
+def isort(a, start, end):
+    for i in range(start+1, end):
+        j = i
+        while j > start and a[j-1] > a[j]:
+            a[j], a[j-1] = a[j-1], a[j]
+            j -= 1
 
 def bqsort(arr, start, end):
     # Ugly solution for setting default args
@@ -54,6 +60,11 @@ def bqsort(arr, start, end):
     arr[pivot_i], arr[left] = arr[left], arr[pivot_i]
     config.stat.swap += 1
     config.stat.basic += 5
-
-    bqsort(arr, start, left - 1)
-    bqsort(arr, left+1, end)
+    if (left -1 - start) <= 10:
+        isort(arr, start, left-1)
+    else:
+        bqsort(arr, start, left - 1)
+    if (end - left+1) <= 10:
+        isort(arr, left+1, end)
+    else:
+        bqsort(arr, left+1, end)
