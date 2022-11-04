@@ -31,6 +31,24 @@ class uu_graph:
                             y in range(0,self.shape.y):
                                 tmp.append(coords(x,y))
         return tmp
+
+    def search(self, node, string, path):
+        # If the string is empty that means we have a path which contains all
+        # the characters
+        if string:
+            if self.value_get(node) == string[0]:
+                # We need atleast one neighbour with the next letter
+                ret = False
+                for i in self.neighbours(node):
+                    ret = ret or self.search(i, string[1:], path)
+                if ret:
+                    path.append(node)
+                return ret
+            else:
+                return False
+        else:
+            return True
+
     
     def __iter__(self):
         for i in range(self.shape.x):
@@ -49,6 +67,12 @@ class trie:
 
     def new_node(self):
         return {"childre"}
+
+    def edge_get(self, u, v):
+        tmp = self.neighbours(u)
+        if v in tmp:
+            return True
+        return False
 
     def insert(self, string):
         # Empty trie
@@ -82,6 +106,7 @@ class trie:
         for k, v in node.children.items():
             self.words_get(v, prefix+k, arr)
 
+
     def __repr__(self):
         arr = list()
         self.words_get(self.root,"",arr)
@@ -94,8 +119,11 @@ def max_score_words(graph, words, k):
         ref_dict[graph.value_get(i)].append(i)
     for i in range(k):
         string = pq.pop()
-        for j in string:
-            print(ref_dict[j])
+        starts = ref_dict[string[0]]
+        for i in starts:
+            path = list()
+            if graph.search(i, string, path):
+                print(f"{string}:{path[::-1]}")
 
 if __name__ == "__main__":
     rows = int(input())
@@ -105,7 +133,4 @@ if __name__ == "__main__":
         mat.append(list(input()))
     words = input().split()
     g = uu_graph(mat)
-    t = trie()
-    for i in words:
-        t.insert(i)
-    max_score_words(g, words, 1)
+    max_score_words(g, words, 10)
