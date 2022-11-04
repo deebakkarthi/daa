@@ -4,6 +4,7 @@ from itertools import product
 from dataclasses import dataclass
 from dataclasses import field
 from collections import defaultdict
+import sys
 
 coords = namedtuple("coords",["x","y"])
 
@@ -55,68 +56,8 @@ class uu_graph:
             for j in range(self.shape.y):
                 yield coords(i,j)
 
-@dataclass
-class trienode:
-    children: dict = field(default_factory=dict)
-    end: bool = False
-
-# Trie to store the words
-class trie:
-    def __init__(self):
-        self.root = None
-
-    def new_node(self):
-        return {"childre"}
-
-    def edge_get(self, u, v):
-        tmp = self.neighbours(u)
-        if v in tmp:
-            return True
-        return False
-
-    def insert(self, string):
-        # Empty trie
-        if self.root is None:
-            self.root = trienode()
-        curr = self.root
-        for i in string:
-            # The character is not in the trie
-            if curr.children.get(i) is None:
-                curr.children[i] = trienode()
-            curr = curr.children[i]
-        # String already in the trie
-        if curr.end:
-            return False
-        else:
-            curr.end = True
-            return True
-
-    def search(self, string):
-        curr = self.root
-        for i in string:
-            if curr.children.get(i) is None:
-                return False
-            curr = curr.children[i]
-        # If the current node is terminal then the string is there
-        return curr.end
-        
-    def words_get(self, node, prefix, arr):
-        if node.end:
-            arr.append(prefix)
-        for k, v in node.children.items():
-            self.words_get(v, prefix+k, arr)
-
-
-    def __repr__(self):
-        arr = list()
-        self.words_get(self.root,"",arr)
-        return str(arr)
-
-def max_score_words(graph, words, k):
+def max_score_words(graph, ref_dict, words, k):
     pq = sorted(words, key=lambda x:len(x))
-    ref_dict = defaultdict(list)
-    for i in graph:
-        ref_dict[graph.value_get(i)].append(i)
     for i in range(k):
         string = pq.pop()
         starts = ref_dict[string[0]]
@@ -125,12 +66,42 @@ def max_score_words(graph, words, k):
             if graph.search(i, string, path):
                 print(f"{string}:{path[::-1]}")
 
+def lpref_words(graph, ref_dict, words, l):
+    starts = ref_dict[l]
+    for i in words:
+        if i.startswith(l):
+            for j in starts:
+                path = list()
+                if graph.search(j, i, path):
+                    print(f"{i}:{path[::-1]}")
+
+def ref_dict_create(graph, words):
+    ref_dict = defaultdict(list)
+    for i in graph:
+        ref_dict[graph.value_get(i)].append(i)
+    return ref_dict
+
+def usage():
+    print('''Usage: crossword K L
+    k\t-\tNumber of maximum words needed
+    L\t-\tStarting Letter''')
+    exit()
+
 if __name__ == "__main__":
+    if len(sys.argv) < 3:
+        usage()
+    k = int(sys.argv[1])
+    l = sys.argv[2]
+
     rows = int(input())
     cols = int(input())
     mat = list()
     for i in range(rows):
         mat.append(list(input()))
     words = input().split()
+
     g = uu_graph(mat)
-    max_score_words(g, words, 10)
+    ref_dict = ref_dict_create(g, words)
+
+    max_score_words(g, ref_dict, words, k)
+    lpref_words(g, ref_dict, words, l)
