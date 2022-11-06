@@ -3,18 +3,23 @@ import sys
 from collections import defaultdict
 from itertools import chain
 
+
 class uu_graph:
     def __init__(self):
         self.map = defaultdict(set)
         self.colormap = dict()
         self.integmap = dict()
+
     def node_add(self, node, color):
         self.colormap[node] = color
+
     def edge_add(self, u, v):
         self.map[u].add(v)
         self.map[v].add(u)
+
     def neighbours(self, node):
         return self.map[node]
+
     def node_integrated_check(self, node):
         count = dict()
         count["B"] = 0
@@ -27,16 +32,20 @@ class uu_graph:
         else:
             # Atleast as many black neighbours as white
             return count["B"] >= count["W"]
+
     def graph_integrated_check(self):
         for i in self:
             if not self.node_integrated_check(i):
                 return False
         return True
+
     def integmap_create(self):
         for i in self:
             self.integmap[i] = self.node_integrated_check(i)
+
     def same_color(self, u, v):
         return self.colormap[u] == self.colormap[v]
+
     def ghetto_get(self):
         self.integmap_create()
         ghetto = list()
@@ -47,13 +56,15 @@ class uu_graph:
                     self.dfs(i, path)
                     ghetto.append(path)
         return ghetto
+
     def dfs(self, node, path):
         path.add(node)
         for i in self.neighbours(node):
-            if not self.integmap[i]  and self.same_color(node, i):
+            if not self.integmap[i] and self.same_color(node, i):
                 if i not in path:
                     path.add(i)
                     self.dfs(i, path)
+
     def __iter__(self):
         for i in self.map:
             yield i
@@ -69,6 +80,7 @@ def usage():
     1 2
     0 2''')
     exit()
+
 
 def file_to_graph(g, file):
     with open(file, "r") as f:
@@ -87,6 +99,7 @@ def file_to_graph(g, file):
             line = [int(x) for x in line]
             g.edge_add(*line)
             line = f.readline()
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

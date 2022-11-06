@@ -6,7 +6,9 @@ from dataclasses import field
 from collections import defaultdict
 import sys
 
-coords = namedtuple("coords",["x","y"])
+
+coords = namedtuple("coords", ["x", "y"])
+
 
 # Undirected, unweighted graph
 class uu_graph:
@@ -19,18 +21,18 @@ class uu_graph:
 
     def neighbours(self, c):
         tmp = list()
-        for i in (-1,0,1):
-            for j in (-1,0,1):
+        for i in (-1, 0, 1):
+            for j in (-1, 0, 1):
                 # We don't want to include the same node as its neighbour
                 # so 0,0 is not needed
-                if not(i == 0 and j == 0):
+                if not (i == 0 and j == 0):
                     x = c.x+i
                     y = c.y+j
                     # Check for boundaries. We can't use IndexError exception
                     # as python allows negative indices
-                    if x in range(0,self.shape.x) and\
-                            y in range(0,self.shape.y):
-                                tmp.append(coords(x,y))
+                    if x in range(0, self.shape.x) and\
+                            y in range(0, self.shape.y):
+                        tmp.append(coords(x, y))
         return tmp
 
     def search(self, node, string, path):
@@ -50,14 +52,14 @@ class uu_graph:
         else:
             return True
 
-    
     def __iter__(self):
         for i in range(self.shape.x):
             for j in range(self.shape.y):
-                yield coords(i,j)
+                yield coords(i, j)
+
 
 def max_score_words(graph, ref_dict, words, k):
-    pq = sorted(words, key=lambda x:len(x))
+    pq = sorted(words, key=lambda x: len(x))
     for i in range(k):
         string = pq.pop()
         starts = ref_dict[string[0]]
@@ -66,14 +68,16 @@ def max_score_words(graph, ref_dict, words, k):
             if graph.search(i, string, path):
                 print(f"{string}:{path[::-1]}")
 
-def lpref_words(graph, ref_dict, words, l):
-    starts = ref_dict[l]
+
+def lpref_words(graph, ref_dict, words, c):
+    starts = ref_dict[c]
     for i in words:
-        if i.startswith(l):
+        if i.startswith(c):
             for j in starts:
                 path = list()
                 if graph.search(j, i, path):
                     print(f"{i}:{path[::-1]}")
+
 
 def ref_dict_create(graph, words):
     ref_dict = defaultdict(list)
@@ -81,17 +85,19 @@ def ref_dict_create(graph, words):
         ref_dict[graph.value_get(i)].append(i)
     return ref_dict
 
+
 def usage():
     print('''Usage: crossword K L
     k\t-\tNumber of maximum words needed
     L\t-\tStarting Letter''')
     exit()
 
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         usage()
     k = int(sys.argv[1])
-    l = sys.argv[2]
+    c = sys.argv[2]
 
     rows = int(input())
     cols = int(input())

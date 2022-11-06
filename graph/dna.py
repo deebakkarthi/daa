@@ -4,11 +4,14 @@ from collections import defaultdict
 import sys
 import matplotlib.pyplot as plt
 
+
 class uu_graph:
     def __init__(self):
-        self.map = defaultdict(lambda :{"left":[],"right":[]})
+        self.map = defaultdict(lambda: {"left": [], "right": []})
+
     def __len__(self):
         return len(self.map)
+
     def graph_construct(self, edgelist):
         for i in edgelist:
             (u, v, d) = i
@@ -22,9 +25,11 @@ class uu_graph:
                     self.map[v]["right"].append(u)
                 if v not in self.map[u]["left"]:
                     self.map[u]["left"].append(v)
+
     def __iter__(self):
         for i in self.map:
             yield i
+
 
 def topo(graph):
     indegree = dict()
@@ -56,18 +61,18 @@ def topo_rec(graph, indegree, vis, path, sequences):
 
 
 def dna_gen(num_frags, num_clues):
-    DIRS = ["l","r"]
-    og = [frag_gen(random.randint(5,6)) for _ in range(num_frags)]
+    DIRS = ["l", "r"]
+    og = [frag_gen(random.randint(5, 6)) for _ in range(num_frags)]
     og = [*set(og)]
     fragments = set()
     # Take k pair from og and add the directional detail to fragments
     for _ in range(num_clues):
-        fi = random.randint(0,len(og)-1)
-        fj = random.randint(0,len(og)-1)
+        fi = random.randint(0, len(og)-1)
+        fj = random.randint(0, len(og)-1)
         if fi < fj:
-            tmp = (og[fi],og[fj],"l")
+            tmp = (og[fi], og[fj], "l")
         elif fi > fj:
-            tmp = (og[fi],og[fj],"r")
+            tmp = (og[fi], og[fj], "r")
         else:
             continue
         fragments.add(tmp)
@@ -75,12 +80,14 @@ def dna_gen(num_frags, num_clues):
 
 
 def frag_gen(k):
-    BASES = ["a","c","g","t"]
+    BASES = ["a", "c", "g", "t"]
     return "".join(random.choice(BASES) for _ in range(k))
+
 
 def usage():
     print("Usage: dna NUM_FRAGS")
     exit()
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -92,14 +99,14 @@ if __name__ == "__main__":
         fragments, og = dna_gen(num_frags, i)
         g = uu_graph()
         g.graph_construct(fragments)
-        #for i in g:
-        #    print(i,g.map[i])
-        #print(f"OG:{og}")
+        # for i in g:
+        #     print(i,g.map[i])
+        # print(f"OG:{og}")
         tmp = topo(g)
-        print(i,len(tmp))
+        print(i, len(tmp))
         x.append(i)
         y.append(len(tmp))
-    plt.plot(x,y,label=f"#(fragments) = {num_frags}")
+    plt.plot(x, y, label=f"#(fragments) = {num_frags}")
     plt.yscale("log")
     plt.xlabel("Number of clues")
     plt.ylabel("Number of possible sequences(log)")
