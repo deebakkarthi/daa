@@ -110,4 +110,4 @@ if __name__ == "__main__":
     ref_dict = ref_dict_create(g, words)
 
     max_score_words(g, ref_dict, words, k)
-    lpref_words(g, ref_dict, words, l)
+    lpref_words(g, ref_dict, words, c)
