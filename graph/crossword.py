@@ -89,7 +89,18 @@ def ref_dict_create(graph, words):
 def usage():
     print('''Usage: crossword K L
     k\t-\tNumber of maximum words needed
-    L\t-\tStarting Letter''')
+    L\t-\tStarting Letter
+    INPUT:
+    #(ROWS)
+    #(COLS)
+    GRID
+    WORDS
+    EXAMPLE INPUT:
+    4
+    4
+    efga
+    ...
+    she see sees beard''')
     exit()
 
 
