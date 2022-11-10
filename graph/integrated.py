@@ -8,6 +8,8 @@ class uu_graph:
     def __init__(self):
         self.map = defaultdict(set)
         self.colormap = dict()
+        # storing whether a node is integrated or not
+        # Useful in ghetto finding
         self.integmap = dict()
 
     def node_add(self, node, color):
@@ -21,9 +23,7 @@ class uu_graph:
         return self.map[node]
 
     def node_integrated_check(self, node):
-        count = dict()
-        count["B"] = 0
-        count["W"] = 0
+        count = defaultdict(int)
         for i in self.neighbours(node):
             count[self.colormap[i]] += 1
         if self.colormap[node] == "B":
@@ -51,15 +51,19 @@ class uu_graph:
         ghetto = list()
         for i in self:
             if not self.integmap[i]:
+                # If it is already part of a ghetto, skip
                 if i not in set(chain.from_iterable(ghetto)):
                     path = set()
                     self.dfs(i, path)
-                    ghetto.append(path)
+                    # Should atleast be 3 nodes
+                    if len(path) >= 3:
+                        ghetto.append(path)
         return ghetto
 
     def dfs(self, node, path):
         path.add(node)
         for i in self.neighbours(node):
+            # ghetto condition
             if not self.integmap[i] and self.same_color(node, i):
                 if i not in path:
                     path.add(i)
@@ -109,4 +113,6 @@ if __name__ == "__main__":
     for i in g:
         print(i, g.node_integrated_check(i))
     print("Integrated Graph:", g.graph_integrated_check())
-    print("Ghettos:", g.ghetto_get())
+    print("Ghettos:")
+    for i in g.ghetto_get():
+        print(",".join([f"{x}[{g.colormap[x]}]" for x in i]))
