@@ -85,29 +85,26 @@ def frag_gen(k):
 
 
 def usage():
-    print("Usage: dna NUM_FRAGS")
+    print("Usage: dna NUM_FRAGS PLOT_SCALE")
     exit()
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 3:
         usage()
     num_frags = int(sys.argv[1])
     x = []
     y = []
-    for i in range(num_frags, num_frags*num_frags):
+    for i in range(int(num_frags/2)*num_frags, num_frags*num_frags):
         fragments, og = dna_gen(num_frags, i)
         g = uu_graph()
         g.graph_construct(fragments)
-        # for i in g:
-        #     print(i,g.map[i])
-        # print(f"OG:{og}")
         tmp = topo(g)
         print(i, len(tmp))
         x.append(i)
         y.append(len(tmp))
-    plt.plot(x, y, label=f"#(fragments) = {num_frags}")
-    plt.yscale("log")
+    plt.scatter(x, y, label=f"#(fragments) = {num_frags}")
+    plt.yscale(sys.argv[2])
     plt.xlabel("Number of clues")
     plt.ylabel("Number of possible sequences(log)")
     plt.legend()
