@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 from collections import namedtuple
-from itertools import product
-from dataclasses import dataclass
-from dataclasses import field
 from collections import defaultdict
 import sys
 
