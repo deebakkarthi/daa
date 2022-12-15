@@ -58,6 +58,7 @@ class uu_graph:
 def max_score_words(graph, ref_dict, words, k):
     pq = sorted(words, key=lambda x: len(x))
     for i in range(k):
+        # No need to reverse as we are popping from the end
         string = pq.pop()
         starts = ref_dict[string[0]]
         for i in starts:
@@ -66,7 +67,7 @@ def max_score_words(graph, ref_dict, words, k):
                 print(f"{string}:{path[::-1]}")
 
 
-def lpref_words(graph, ref_dict, words, c):
+def cpref_words(graph, ref_dict, words, c):
     starts = ref_dict[c]
     for i in words:
         if i.startswith(c):
@@ -76,7 +77,7 @@ def lpref_words(graph, ref_dict, words, c):
                     print(f"{i}:{path[::-1]}")
 
 
-def ref_dict_create(graph, words):
+def ref_dict_create(graph):
     ref_dict = defaultdict(list)
     for i in graph:
         ref_dict[graph.value_get(i)].append(i)
@@ -115,7 +116,7 @@ if __name__ == "__main__":
     words = input().split()
 
     g = uu_graph(mat)
-    ref_dict = ref_dict_create(g, words)
+    ref_dict = ref_dict_create(g)
 
     max_score_words(g, ref_dict, words, k)
-    lpref_words(g, ref_dict, words, c)
+    cpref_words(g, ref_dict, words, c)

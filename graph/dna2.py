@@ -82,6 +82,8 @@ if __name__ == "__main__":
         usage()
     num_frags = int(sys.argv[1])
     fragments, og = dna_gen(num_frags)
+    for i in fragments:
+        print(i)
     g = uu_graph()
     g.graph_construct(fragments)
     print(topo(g))
