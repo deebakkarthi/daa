@@ -28,8 +28,6 @@ def knapsack_rec(max_weight, benefit_arr, weight_arr, w, v, i, currmax):
         b = v + (max_weight-w)*(benefit_arr[i+1]/weight_arr[i+1])
         if b < currmax:
             return currmax
-        if i == len(weight_arr)-1:
-            return b
         currmax = max(currmax, knapsack_rec(max_weight, benefit_arr, weight_arr,
                      w+weight_arr[i+1], v+benefit_arr[i+1], i+1, currmax))
         currmax = max(currmax, knapsack_rec(max_weight, benefit_arr, weight_arr,
