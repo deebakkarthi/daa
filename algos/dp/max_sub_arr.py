@@ -14,7 +14,7 @@ def max_sub_arr(arr):
                 max_x = i-1
                 max_y = j-1
                 curr_max = dp_table[i][j]
-    return max_x, max_y
+    return curr_max, max_x, max_y
 
 
 if __name__ == "__main__":
