@@ -21,7 +21,5 @@ def dance(score_arr):
 
     
 if __name__ == "__main__":
-    score_arr = [random.random() for _ in range(random.randint(10,100))]
-    max_score, songs_to_dance = dance(score_arr)
-    print(score_arr)
-    print(max_score, songs_to_dance)
+    score_arr = [random.randint(1,100) for _ in range(random.randint(20,20))]
+    print(*dance(score_arr))
