@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
 def knapsack_bottom_up(max_weight, benefit_arr, weight_arr):
+    ITER = 0
     n = len(benefit_arr)
     b = table_gen(max_weight, n)
     for i in range(n+1):
         for w in range(max_weight+1):
+            ITER += 1
             if i == 0 or w == 0:
                 b[i][w] = 0
             elif weight_arr[i-1] <= w:
@@ -13,8 +15,9 @@ def knapsack_bottom_up(max_weight, benefit_arr, weight_arr):
             else:
                 b[i][w] = b[i][w]
     tmp = knapsack_place(b, weight_arr, max_weight)
-    print(tmp)
     print(f"Weight:{sum([weight_arr[i-1] for i in tmp])},Benefit:{sum([benefit_arr[i-1] for i in tmp])}")
+    print(f"PROJ:{len(weight_arr)*max_weight}")
+    print(f"ITER:{ITER}")
     return b[n][max_weight]
 
 def knapsack_top_down( max_weight, benefit_arr, weight_arr,):
@@ -57,7 +60,7 @@ def table_gen(max_weight, n):
     b = [[0 for _ in range(max_weight+1)] for _ in range(n+1)]
     return b
 
-if __name__ == "__main__":
+def main():
     weight_arr = [95, 4, 60, 32, 23, 72, 80, 62, 65, 46]
     benefit_arr = [55, 10, 47, 5, 4, 50, 8, 61, 85, 87]
     max_weight = 269
@@ -119,5 +122,7 @@ if __name__ == "__main__":
     max_weight = 3818
     print(f"weights:{weight_arr}")
     print(f"benefits:{benefit_arr}")
-    print(knapsack_top_down(max_weight, benefit_arr, weight_arr))
     print(knapsack_bottom_up(max_weight, benefit_arr, weight_arr))
+
+if __name__ == "__main__":
+    main()

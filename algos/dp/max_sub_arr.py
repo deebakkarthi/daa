@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import random
 
 
 def max_sub_arr(arr):
@@ -19,4 +20,14 @@ def max_sub_arr(arr):
 
 if __name__ == "__main__":
     arr = [2,-1,2,3,4,-5]
+    print(arr)
+    print(max_sub_arr(arr))
+    arr = [random.randint(-100, 100) for _ in range(random.randint(10,20))]
+    print(arr)
+    print(max_sub_arr(arr))
+    arr = [random.randint(-100, -1) for _ in range(random.randint(10,20))]
+    print(arr)
+    print(max_sub_arr(arr))
+    arr = [random.randint(1, 100) for _ in range(random.randint(10,20))]
+    print(arr)
     print(max_sub_arr(arr))
